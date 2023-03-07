@@ -2,10 +2,9 @@ import streamlit as st
 from streamlit_extras.switch_page_button import switch_page
 
 from utils.style import (
-    HIDE_STREAMLIT_STYLE,
     FAVICON_IMG,
     PUBLIC_DIR,
-    HIDE_SIDEBAR_STYLE
+    default_markdown
 )
 
 
@@ -15,8 +14,9 @@ def home():
         page_icon=FAVICON_IMG,
         initial_sidebar_state='collapsed'
     )
+    default_markdown()
 
-    st.title('Welcome, Coinone Data App.')
+    st.title('Welcome, Coinone Data App')
     st.image(image=PUBLIC_DIR + "logo-symbol-light.png", width=300)
 
     st.write("""
@@ -43,9 +43,6 @@ def home():
     st.subheader("Authorization")
     if st.button("Link", type="secondary", ):
         switch_page(page_name='authorization')
-
-    st.markdown(HIDE_STREAMLIT_STYLE, unsafe_allow_html=True)
-    st.markdown(HIDE_SIDEBAR_STYLE, unsafe_allow_html=True)
 
 
 if __name__ == '__main__':
