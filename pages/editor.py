@@ -1,7 +1,4 @@
-import os
-
 import streamlit as st
-import streamlit_ace as sta
 
 from utils.style import FAVICON_IMG, default_markdown
 
@@ -14,45 +11,21 @@ def editor_view():
     )
     default_markdown()
 
-    file_list = os.listdir('.')
+    st.header(body='Generate Metric')
+    st.write("""
+        <b>DBT Metric</b> 은 미리 생성해놓은 dbt model 을 이용하여 빠르게 metric 을 생성할 수 있습니다.
+        이 앱은 사용자가 클릭으로 DBT Metric을 생성하여 사용자가 데이터를 쉽게 이해하는 것을 목표로 합니다.
 
-    # case-1
-    selected_file = st.selectbox("Select a file", file_list)
+        앱은 간단한 UI를 가지며 사용자가 Metric 생성을 위해 필요한 정보를 입력하고, 그에 따라 DBT를 사용해 Metric 을 생성합니다.
+        간편하게 Metric을 생성하고, lightdash 로 시각화하여 데이터를 더욱 쉽게 이해할 수 있습니다.
+        """, unsafe_allow_html=True)
 
-    if selected_file:
-        with open(selected_file) as f:
-            file_contents = f.read()
-        # st.text_area("File Contents", file_contents)
-        sta.st_ace(
-            value=file_contents,
-
-        )
-
-    if st.button("Save File"):
-        if selected_file:
-            with open(selected_file, "w") as f:
-                f.write(st.session_state.file_contents)
-            st.success("File saved!")
-        else:
-            st.warning("Please select a file first.")
-    #case-2
-    # contents = os.listdir('.')
-    # for content in contents:
-    #     path = os.path.join('.', content)
-    #     if os.path.isfile(path):
-    #         if st.button(content):
-    #             with open(content, 'w') as f:
-    #                 text = st.text_input('Enter your text:')
-    #                 f.write(text)
-    #                 st.success('Saved!')
-    #     elif os.path.isdir(path):
-    #         try:
-    #             with st.expander(content, expanded=False):
-    #                 files = os.listdir(path)
-    #                 for file in files:
-    #                     st.write(file)
-    #         except NotADirectoryError:
-    #             pass
+    st.subheader(body='Select model')
+    st.write('메트릭 생성을 위한 모델을 선택해주세요.')
+    st.selectbox(
+        label='메트릭 생성을 원하는 테이블 목록을 나타냅니다. description 을 확인할 수 있으니 살펴보시고 눌러주세요.',
+        options=''
+    )
 
 
 if __name__ == '__main__':

@@ -33,7 +33,8 @@ def home():
     analysis was limited to the last **30 days**.
     """)
 
-    st.button("login", type="primary", use_container_width=True)
+    if st.button("login", type="primary", use_container_width=True):
+        switch_page(page_name='editor')
 
     st.write("""
     If you want to apply for permission to bigquery, lightdash, and datahub
