@@ -1,5 +1,9 @@
+from collections import defaultdict
+from typing import Type
+
 import streamlit as st
 
+from core.dbt import DbtUtils
 from utils.style import FAVICON_IMG, default_markdown
 
 
@@ -22,10 +26,24 @@ def editor_view():
 
     st.subheader(body='Select model')
     st.write('메트릭 생성을 위한 모델을 선택해주세요.')
-    st.selectbox(
-        label='메트릭 생성을 원하는 테이블 목록을 나타냅니다. description 을 확인할 수 있으니 살펴보시고 눌러주세요.',
-        options=''
+
+    dbt_utils = DbtUtils(root_path='/Users/jj.lee/workspace/data-cell/dbt-metric')
+
+    selected_model = st.selectbox(
+        label='select model',
+        options=_get_models_selectbox(dbt_utils=dbt_utils),
+        help='메트릭 생성에 필요한 테이블 목록을 나타냅니다. 모델을 선택하면 관련 정보를 확인할 수 있습니다.',
     )
+
+    if selected_model:
+        st.info(dbt_utils.get_description(model=selected_model))
+
+    if st.button('Confirm'):
+        st.write('thank you.')
+
+
+def _get_models_selectbox(dbt_utils: Type[DbtUtils]) -> dict:
+    return dbt_utils.get_all_model()['models']['all']
 
 
 if __name__ == '__main__':
